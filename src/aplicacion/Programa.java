@@ -26,7 +26,9 @@ public class Programa {
 
 		if (!fechaSalida.after(fechaEntrada)) {
 			System.out.println("Error. Fecha de Salida debe ser > a Fecha de Entrada");
-		} else {
+		} 
+		else 
+		{
 			// --Instanciamos e Imprimimos la Reserva--//
 			Reservacion reservacion = new Reservacion(nroCuarto, fechaEntrada, fechaSalida);
 			System.out.println("Reservacion : " + reservacion);
@@ -40,23 +42,17 @@ public class Programa {
 			System.out.print("Fecha de Salida (dd/mm/yyyy):");
 			fechaSalida = sdf.parse(sc.next());
 
-			Date hoy = new Date();
-			if (fechaEntrada.before(hoy) || fechaSalida.before(hoy)) 
+			String error = reservacion.actualizardias(fechaEntrada, fechaSalida);
+			if(error != null)
 			{
-				System.out.println("La Actualizacion debe ser con Fechas Futuras ");
-			} 
-			else if (!fechaSalida.after(fechaEntrada)) 
+				System.out.println("Error en Reservacion : " + error);	
+			}
+			else
 			{
-				System.out.println("Error. Fecha de Salida debe ser > a Fecha de Entrada");
-			} 
-			else 
-			{
-				// --Actualizamos la Reserva e Imprimimos--//
-				reservacion.actualizardias(fechaEntrada, fechaSalida);
+				// --Todo Bien Imprimimos la Reservacion--//
 				System.out.println("Reservacion : " + reservacion);
 				System.out.println();
 			}
-
 		}
 
 		sc.close();

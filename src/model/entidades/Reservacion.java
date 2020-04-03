@@ -18,7 +18,7 @@ public class Reservacion {
 		this.fechaSalida = fechaSalida;
 	}
 
-	// --Definimos el Constructor--//
+	// --Definimos Getters y Setter--//
 	public Integer getNroCuarto() {
 		return nroCuarto;
 	}
@@ -43,10 +43,20 @@ public class Reservacion {
 		return TimeUnit.DAYS.convert(dif, TimeUnit.MILLISECONDS);
 	}
 
-    public void actualizardias(Date fechaEntrada, Date fechaSalida)
+    public String actualizardias(Date fechaEntrada, Date fechaSalida)
     {
+		Date hoy = new Date();
+		if (fechaEntrada.before(hoy) || fechaSalida.before(hoy)) 
+		{
+			return "La Actualizacion debe ser con Fechas Futuras ";
+		} 
+		if (!fechaSalida.after(fechaEntrada)) 
+		{
+			return "Error. Fecha de Salida debe ser > a Fecha de Entrada";
+		} 	
        this.fechaEntrada = fechaEntrada;
        this.fechaSalida = fechaSalida;
+       return null;
     }
 
 	@Override

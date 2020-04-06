@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import model.excepciones.ControlExcepciones;
+
 public class Reservacion {
 	private Integer nroCuarto;
 	private Date fechaEntrada;
@@ -12,7 +14,12 @@ public class Reservacion {
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 	// --Definimos el Constructor--//
-	public Reservacion(Integer nroCuarto, Date fechaEntrada, Date fechaSalida) {
+	public Reservacion(Integer nroCuarto, Date fechaEntrada, Date fechaSalida) throws ControlExcepciones {
+		if (!fechaSalida.after(fechaEntrada)) 
+		{
+			throw new ControlExcepciones("Fecha de Salida debe ser > a Fecha de Entrada");
+		} 
+		
 		this.nroCuarto = nroCuarto;
 		this.fechaEntrada = fechaEntrada;
 		this.fechaSalida = fechaSalida;
@@ -43,20 +50,19 @@ public class Reservacion {
 		return TimeUnit.DAYS.convert(dif, TimeUnit.MILLISECONDS);
 	}
 
-    public String actualizardias(Date fechaEntrada, Date fechaSalida)
+    public void actualizardias(Date fechaEntrada, Date fechaSalida) throws ControlExcepciones
     {
-		Date hoy = new Date();
+		Date hoy = new Date(); 
 		if (fechaEntrada.before(hoy) || fechaSalida.before(hoy)) 
 		{
-			return "La Actualizacion debe ser con Fechas Futuras ";
+			throw new ControlExcepciones("La Actualizacion debe ser con Fechas Futuras ");
 		} 
 		if (!fechaSalida.after(fechaEntrada)) 
 		{
-			return "Error. Fecha de Salida debe ser > a Fecha de Entrada";
+			throw new ControlExcepciones("Fecha de Salida debe ser > a Fecha de Entrada");
 		} 	
-       this.fechaEntrada = fechaEntrada;
-       this.fechaSalida = fechaSalida;
-       return null;
+        this.fechaEntrada = fechaEntrada;
+        this.fechaSalida = fechaSalida; 
     }
 
 	@Override
